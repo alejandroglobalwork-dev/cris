@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Generador de QR</title>
+<link rel="stylesheet" href="assets/css/styles.css" />
+<style>
+  .qr-wrap { display: grid; gap: 1.2rem; place-items: center; width: min(100%, 30rem); }
+  .qr-card {
+    padding: 1.6rem; border-radius: var(--r-lg); background: #fff;
+    box-shadow: var(--shadow); border: 1px solid var(--border);
+  }
+  .qr-card img, .qr-card canvas { display: block; }
+  .field { width: 100%; display: grid; gap: .4rem; text-align: left; }
+  .field label { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--red); font-weight: 600; }
+  .field input {
+    padding: .85rem 1rem; border-radius: var(--r-sm);
+    border: 1px solid var(--border); background: rgba(255,255,255,.7);
+    font: inherit; color: var(--ink);
+  }
+  .row { display: flex; gap: .7rem; flex-wrap: wrap; justify-content: center; }
+</style>
+</head>
+<body>
+  <div class="aura" aria-hidden="true">
+    <span class="blob blob--1"></span><span class="blob blob--2"></span><span class="grain"></span>
+  </div>
+
+  <main class="screen">
+    <div class="qr-wrap">
+      <p class="eyebrow">Herramienta</p>
+      <h1 class="h2">Genera el QR</h1>
+      <p class="muted">Pega la URL donde hayas publicado la página, descarga el PNG e imprímelo.</p>
+
+      <div class="field">
+        <label for="url">URL de la página</label>
+        <input id="url" type="url" placeholder="https://tuusuario.github.io/cris/" />
+      </div>
+
+      <div class="qr-card"><div id="qr"></div></div>
+
+      <div class="row">
+        <button class="btn btn--primary" id="gen"><span>Generar</span></button>
+        <button class="btn btn--ghost" id="dl">Descargar PNG</button>
+      </div>
+      <p class="hint" id="msg"></p>
+    </div>
+  </main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  const box = document.getElementById("qr");
+  const input = document.getElementById("url");
+  const msg = document.getElementById("msg");
+
+  input.value = location.href.replace(/qr\.html.*$/, "");
+
+  function render() {
+    if (typeof QRCode === "undefined") {
+      msg.textContent = "No se pudo cargar la librería del QR (¿sin conexión?).";
+      return;
+    }
+    box.innerHTML = "";
+    new QRCode(box, {
+      text: input.value.trim() || location.origin,
+      width: 320,
+      height: 320,
+      colorDark: "#D7263D",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+    msg.textContent = "Escanéalo con el móvil para comprobarlo antes de imprimir.";
+  }
+
+  document.getElementById("gen").addEventListener("click", render);
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter") render(); });
+
+  document.getElementById("dl").addEventListener("click", () => {
+    const canvas = box.querySelector("canvas");
+    if (!canvas) { render(); return; }
+    const a = document.createElement("a");
+    a.href = canvas.toDataURL("image/png");
+    a.download = "qr-regalo.png";
+    a.click();
+  });
+
+  window.addEventListener("load", render);
+</script>
+</body>
+</html>
