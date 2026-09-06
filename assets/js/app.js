@@ -32,6 +32,9 @@
   };
 
   /* ---------------- Portada ---------------- */
+  $("#intro-emojis").innerHTML = (C.iconos || [])
+    .map((e, i) => `<span style="animation-delay:${i * 0.22}s">${e}</span>`)
+    .join("");
   $("#intro-name").textContent = C.nombre;
   $("#intro-phrase").textContent = C.fraseIntro;
 
@@ -42,6 +45,11 @@
       $("#intro-date").textContent =
         C.edad ? `${fecha} · ${C.edad} años` : fecha;
     }
+  }
+
+  /* Confeti nada más abrir la página: lo primero que ve al escanear el QR */
+  if (window.confetti) {
+    requestAnimationFrame(() => window.confetti.rain(4));
   }
 
   $("#start-btn").addEventListener("click", () => {

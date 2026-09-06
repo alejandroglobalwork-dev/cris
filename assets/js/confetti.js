@@ -4,6 +4,7 @@
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
   const COLORS = ["#FF6B4A", "#FF4D8D", "#D7263D", "#FFA552", "#FFD8CC"];
+  const EMOJIS = (window.CONFIG && window.CONFIG.iconos) || ["🎂", "😊", "❤️"];
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   let pieces = [];
@@ -22,7 +23,13 @@
   function spawn(count, originY) {
     const w = window.innerWidth;
     for (let i = 0; i < count; i++) {
+      // Una de cada cuatro piezas es un emoji; el resto, papelillos
+      const emoji = Math.random() < 0.25
+        ? EMOJIS[(Math.random() * EMOJIS.length) | 0]
+        : null;
       pieces.push({
+        emoji,
+        size: 20 + Math.random() * 14,
         x: Math.random() * w,
         y: originY + Math.random() * 60 - 120,
         w: 5 + Math.random() * 7,
@@ -45,7 +52,7 @@
     for (const p of pieces) {
       p.x += p.vx;
       p.y += p.vy;
-      p.vy += 0.04;
+      p.vy += p.emoji ? 0.03 : 0.04;
       p.vx *= 0.995;
       p.rot += p.vr;
       if (p.y > h * 0.65) p.life -= 0.012;
@@ -54,8 +61,15 @@
       ctx.globalAlpha = Math.max(p.life, 0);
       ctx.translate(p.x, p.y);
       ctx.rotate(p.rot);
-      ctx.fillStyle = p.color;
-      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      if (p.emoji) {
+        ctx.font = `${p.size}px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(p.emoji, 0, 0);
+      } else {
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      }
       ctx.restore();
     }
 
