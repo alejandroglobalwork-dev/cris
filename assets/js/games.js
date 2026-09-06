@@ -11,99 +11,146 @@
   };
 
   /* ---------------------------------------------------------------
-     1. RASCA Y DESCUBRE
+     1. RASCA Y GANA (estilo cartilla de lotería)
+     Hay que descubrir N veces el número de la suerte. Siempre están
+     todos en la cartilla, así que rascándola entera siempre se gana.
      --------------------------------------------------------------- */
   function scratch(stage, cfg, onWin) {
-    const wrap = el("div", "scratch");
-    wrap.appendChild(el("div", "scratch__under",
-      `<div class="emoji">${cfg.icono || "🎁"}</div>
-       <div class="big">${cfg.titulo}</div>`));
+    const suerte    = cfg.numeroSuerte != null ? cfg.numeroSuerte : 7;
+    const necesarios = cfg.necesarios || 3;
+    const total      = Math.max(cfg.casillas || 6, necesarios);
 
-    const canvas = el("canvas");
-    wrap.appendChild(canvas);
-    stage.appendChild(wrap);
+    /* Números: los de la suerte + relleno distinto, todo barajado */
+    const relleno = [1, 2, 3, 4, 5, 6, 8, 9]
+      .filter((n) => n !== suerte)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, total - necesarios);
+    const numeros = Array(necesarios).fill(suerte)
+      .concat(relleno)
+      .sort(() => Math.random() - 0.5);
 
-    const note = el("p", "quiz__note", "Pasa el dedo (o el ratón) por encima.");
-    stage.appendChild(note);
+    const ticket = el("div", "ticket");
+    ticket.appendChild(el("p", "ticket__head",
+      `Encuentra <strong>${necesarios} números ${suerte}</strong>`));
 
-    const ctx = canvas.getContext("2d");
-    let done = false;
+    const grid = el("div", "ticket__grid");
+    numeros.forEach((n) => {
+      const cell = el("div", "ticket__cell");
+      cell.dataset.num = n;
+      cell.appendChild(el("span", "ticket__num", String(n)));
+      cell.appendChild(el("canvas"));
+      grid.appendChild(cell);
+    });
+    ticket.appendChild(grid);
 
-    function paint() {
-      const rect = wrap.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const marcador = el("p", "ticket__score", `0 de ${necesarios}`);
+    ticket.appendChild(marcador);
+    stage.appendChild(ticket);
 
-      const g = ctx.createLinearGradient(0, 0, rect.width, rect.height);
-      g.addColorStop(0, "#F3C9B6");
-      g.addColorStop(0.5, "#E9A9A0");
-      g.addColorStop(1, "#D99BA8");
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, rect.width, rect.height);
+    const nota = el("p", "quiz__note", "Rasca con el dedo (o el ratón).");
+    stage.appendChild(nota);
 
-      ctx.fillStyle = "rgba(255,255,255,.55)";
-      ctx.font = "600 13px Inter, sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText("R A S C A   A Q U Í", rect.width / 2, rect.height / 2);
+    /* ---- Pintar la capa plateada de cada casilla ---- */
+    const capas = [...grid.querySelectorAll("canvas")];
 
-      ctx.globalCompositeOperation = "destination-out";
+    function pintar() {
+      capas.forEach((canvas) => {
+        if (canvas.dataset.hecho) return;
+        const r = canvas.parentElement.getBoundingClientRect();
+        if (!r.width) return;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = r.width * dpr;
+        canvas.height = r.height * dpr;
+        const c = canvas.getContext("2d");
+        c.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const g = c.createLinearGradient(0, 0, r.width, r.height);
+        g.addColorStop(0, "#F6D3BE");
+        g.addColorStop(0.5, "#E7A79C");
+        g.addColorStop(1, "#DC9BAB");
+        c.fillStyle = g;
+        c.fillRect(0, 0, r.width, r.height);
+        c.fillStyle = "rgba(255,255,255,.5)";
+        c.font = "600 15px Inter, sans-serif";
+        c.textAlign = "center";
+        c.fillText("?", r.width / 2, r.height / 2 + 5);
+        c.globalCompositeOperation = "destination-out";
+      });
     }
-    // Espera al layout del modal antes de medir
-    requestAnimationFrame(paint);
+    requestAnimationFrame(pintar);
+    window.addEventListener("resize", pintar);
 
-    function pos(e) {
-      const r = canvas.getBoundingClientRect();
-      const p = e.touches ? e.touches[0] : e;
-      return { x: p.clientX - r.left, y: p.clientY - r.top };
-    }
+    /* ---- Rascado ---- */
+    let aciertos = 0;
+    let ganado = false;
+    let rascando = false;
 
-    function erase(e) {
-      if (done) return;
-      const { x, y } = pos(e);
-      ctx.beginPath();
-      ctx.arc(x, y, 26, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    function cleared() {
-      const w = canvas.width, h = canvas.height;
-      const data = ctx.getImageData(0, 0, w, h).data;
-      let clear = 0, total = 0;
-      for (let i = 3; i < data.length; i += 4 * 40) {   // muestreo
-        total++;
-        if (data[i] < 40) clear++;
+    function porcentaje(canvas) {
+      const c = canvas.getContext("2d");
+      const d = c.getImageData(0, 0, canvas.width, canvas.height).data;
+      let libre = 0, muestras = 0;
+      for (let i = 3; i < d.length; i += 4 * 20) {
+        muestras++;
+        if (d[i] < 40) libre++;
       }
-      return total ? clear / total : 0;
+      return muestras ? libre / muestras : 0;
     }
 
-    function check() {
-      if (done || cleared() < 0.48) return;
-      done = true;
+    function abrir(cell) {
+      const canvas = cell.querySelector("canvas");
+      if (canvas.dataset.hecho) return;
+      canvas.dataset.hecho = "1";
       canvas.classList.add("is-done");
-      note.textContent = "";
-      setTimeout(onWin, 600);
+
+      if (+cell.dataset.num === suerte) {
+        cell.classList.add("is-hit");
+        aciertos++;
+        marcador.textContent = `${aciertos} de ${necesarios}`;
+        if (window.confetti) window.confetti.burst(18);
+
+        if (aciertos >= necesarios && !ganado) {
+          ganado = true;
+          marcador.textContent = "¡Premio! 🎉";
+          nota.textContent = "";
+          if (window.confetti) window.confetti.burst(80);
+          setTimeout(onWin, 1100);
+        }
+      } else {
+        cell.classList.add("is-miss");
+      }
     }
 
-    let drawing = false;
-    const down = (e) => { drawing = true; erase(e); };
-    const move = (e) => { if (!drawing) return; e.preventDefault(); erase(e); };
-    const up = () => { if (!drawing) return; drawing = false; check(); };
+    function rascar(e) {
+      if (ganado) return;
+      const p = e.touches ? e.touches[0] : e;
+      const bajo = document.elementFromPoint(p.clientX, p.clientY);
+      const canvas = bajo && bajo.tagName === "CANVAS" ? bajo : null;
+      if (!canvas || canvas.dataset.hecho) return;
 
-    canvas.addEventListener("mousedown", down);
-    canvas.addEventListener("mousemove", move);
-    window.addEventListener("mouseup", up);
-    canvas.addEventListener("touchstart", down, { passive: true });
-    canvas.addEventListener("touchmove", move, { passive: false });
-    canvas.addEventListener("touchend", up);
+      const r = canvas.getBoundingClientRect();
+      const c = canvas.getContext("2d");
+      const radio = Math.max(Math.min(r.width, r.height) / 4, 14);
+      c.beginPath();
+      c.arc(p.clientX - r.left, p.clientY - r.top, radio, 0, Math.PI * 2);
+      c.fill();
 
-    // Atajo por si el navegador se resiste: doble clic revela
-    canvas.addEventListener("dblclick", () => {
-      if (done) return;
-      done = true;
-      canvas.classList.add("is-done");
-      setTimeout(onWin, 600);
+      // Con rascar poco más de un tercio ya se da por descubierta
+      if (porcentaje(canvas) > 0.36) abrir(canvas.parentElement);
+    }
+
+    const abajo = (e) => { rascando = true; rascar(e); };
+    const mover = (e) => { if (!rascando) return; e.preventDefault(); rascar(e); };
+    const arriba = () => { rascando = false; };
+
+    grid.addEventListener("mousedown", abajo);
+    grid.addEventListener("mousemove", mover);
+    window.addEventListener("mouseup", arriba);
+    grid.addEventListener("touchstart", abajo, { passive: true });
+    grid.addEventListener("touchmove", mover, { passive: false });
+    grid.addEventListener("touchend", arriba);
+
+    /* Atajo de emergencia: doble clic abre la cartilla entera */
+    grid.addEventListener("dblclick", () => {
+      [...grid.children].forEach((cell, i) => setTimeout(() => abrir(cell), i * 120));
     });
   }
 

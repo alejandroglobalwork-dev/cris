@@ -27,7 +27,11 @@ window.CONFIG = {
     etiqueta: "Regalo 1",
     icono: "📖",
     juego: "scratch",
-    pista: "Rasca la superficie para revelar tu primer regalo.",
+    juegoTitulo: "Rasca y gana",
+    pista: "Como los de la lotería: encuentra tres 7 y el premio es tuyo.",
+    numeroSuerte: 7,      // su número de la suerte
+    necesarios: 3,        // cuántos tiene que encontrar
+    casillas: 6,          // casillas de la cartilla
     descripcion:
       "Un álbum hecho a mano con nuestras fotos favoritas. Cada página es un día que no quiero que se nos olvide nunca.",
     detalle: "Impreso, con fotos reales y notas escritas a mano.",
@@ -37,30 +41,31 @@ window.CONFIG = {
 
   /* ---------- Juego 2: Quiz → Perfume ---------- */
   perfume: {
-    titulo: "Tu nuevo aroma",
+    titulo: "Prada Paradox",
     etiqueta: "Regalo 2",
     icono: "🌸",
     juego: "quiz",
-    pista: "Responde tres preguntas sobre nosotros para desbloquearlo.",
+    juegoTitulo: "¿Cuánto nos conocemos?",
+    pista: "Tres preguntas sobre nosotros. Te las sabes todas.",
     descripcion:
-      "Un perfume elegido pensando en ti: cálido, dulce y con carácter. Para que allá donde vayas, vayas siendo tú.",
-    detalle: "Notas de vainilla, ámbar y flor de naranjo.",
+      "Prada Paradox. Floral, ámbar y con carácter, igual que tú. Para que allá donde vayas, se note que has pasado por ahí.",
+    detalle: "Eau de Parfum · Notas de neroli, jazmín y ámbar.",
     // Preguntas del quiz. `correcta` = índice (0,1,2) de la opción correcta.
     preguntas: [
       {
-        pregunta: "¿Dónde nos vimos por primera vez?",
-        opciones: ["En una cafetería", "En casa de un amigo", "Por internet"],
+        pregunta: "¿Cuál es nuestra comida favorita juntos?",
+        opciones: ["Ramen", "Sushi", "Pizza"],
+        correcta: 1
+      },
+      {
+        pregunta: "¿Cuál es 'nuestra' canción?",
+        opciones: ["Ti amo", "Perfect", "Anche sta sera"],
+        correcta: 2
+      },
+      {
+        pregunta: "¿Cuál fue nuestra primera cita?",
+        opciones: ["En la bolera", "En el cine", "Un paseo por la playa"],
         correcta: 0
-      },
-      {
-        pregunta: "¿Cuál es mi comida favorita?",
-        opciones: ["Sushi", "Pizza", "Pasta"],
-        correcta: 2
-      },
-      {
-        pregunta: "¿Qué canción es 'nuestra'?",
-        opciones: ["La que ya sabes", "La del coche", "Las dos"],
-        correcta: 2
       }
     ]
   },
@@ -71,17 +76,18 @@ window.CONFIG = {
     etiqueta: "Regalo 3",
     icono: "✈️",
     juego: "ruleta",
+    juegoTitulo: "La ruleta del destino",
     pista: "Gira la ruleta del destino. El universo ya sabe adónde vamos.",
     descripcion:
-      "Vuelos reservados. Tú, yo, el Teide de fondo y unos días sin reloj ni prisas.",
+      "Vuelos reservados. El 14 de octubre despegamos de Valencia a las 22:30 y aterrizamos en otra vida: tú, yo y el Teide de fondo.",
     detalle: "Los billetes están dentro del sobre. En papel, para que puedas tocarlos.",
     // Tarjeta de embarque
     boarding: {
       pasajeros: "CRIS & ALEJANDRO",
-      origen: { codigo: "MAD", ciudad: "Madrid" },
+      origen: { codigo: "VLC", ciudad: "Valencia" },
       destino: { codigo: "TFS", ciudad: "Tenerife" },
-      fecha: "POR CONFIRMAR",
-      hora: "--:--",
+      fecha: "14 OCT",
+      hora: "22:30",
       vuelo: "LOVE 001",
       asientos: "1A · 1B"
     },

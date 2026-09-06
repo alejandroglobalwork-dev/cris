@@ -116,7 +116,8 @@
             <div><span class="pass__k">Pasajeros</span><span class="pass__v">${b.pasajeros}</span></div>
             <div><span class="pass__k">Vuelo</span><span class="pass__v">${b.vuelo}</span></div>
             <div><span class="pass__k">Fecha</span><span class="pass__v">${b.fecha}</span></div>
-            <div><span class="pass__k">Asientos</span><span class="pass__v">${b.asientos}</span></div>
+            <div><span class="pass__k">Salida</span><span class="pass__v">${b.hora}</span></div>
+            <div class="pass__wide"><span class="pass__k">Asientos</span><span class="pass__v">${b.asientos}</span></div>
           </div>
         </div>
         <div class="pass__stub">Boarding pass</div>
@@ -177,7 +178,7 @@
 
   function openGame(id, cfg) {
     $("#modal-eyebrow").textContent = cfg.etiqueta;
-    $("#modal-title").textContent = "Reto";
+    $("#modal-title").textContent = cfg.juegoTitulo || "Reto";
     $("#modal-hint").textContent = cfg.pista;
     stage.innerHTML = "";
     modal.hidden = false;
