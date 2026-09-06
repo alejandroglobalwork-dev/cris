@@ -91,16 +91,17 @@ window.CONFIG = {
       vuelo: "LOVE 001",
       asientos: "1A · 1B"
     },
-    // Casillas de la ruleta. La ganadora es la marcada con `premio: true`.
+    // Los destinos reales de la ruleta. Ganan las marcadas con `premio: true`,
+    // y la ruleta siempre para en una de ellas.
     casillas: [
-      { texto: "París", premio: false },
-      { texto: "Tenerife", premio: true },
-      { texto: "Roma", premio: false },
-      { texto: "Tenerife", premio: true },
-      { texto: "Lisboa", premio: false },
-      { texto: "Tenerife", premio: true },
-      { texto: "Nueva York", premio: false },
-      { texto: "Tenerife", premio: true }
+      { texto: "Gran Canaria",  premio: false },
+      { texto: "Tenerife",      premio: true  },
+      { texto: "Madrid",        premio: false },
+      { texto: "Fuerteventura", premio: false },
+      { texto: "Tenerife",      premio: true  },
+      { texto: "Mallorca",      premio: false },
+      { texto: "Miami",         premio: false },
+      { texto: "Tenerife",      premio: true  }
     ]
   },
 

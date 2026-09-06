@@ -259,7 +259,8 @@
       ctx.translate(R, R);
       ctx.rotate(mid);
       ctx.fillStyle = "#fff";
-      ctx.font = "600 19px Inter, sans-serif";
+      // Los nombres largos ("Fuerteventura") van un punto más pequeños
+      ctx.font = `600 ${c.texto.length > 10 ? 15 : 19}px Inter, sans-serif`;
       if (Math.cos(mid) < 0) {
         ctx.rotate(Math.PI);
         ctx.textAlign = "left";
