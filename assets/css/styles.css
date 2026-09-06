@@ -311,6 +311,26 @@ main { position: relative; z-index: 1; }
 .card__body { display: grid; gap: .55rem; }
 .card__lock { font-size: .8rem; color: var(--ink-2); opacity: .75; }
 
+/* Sello con el número del regalo ganado */
+.card__seal {
+  width: 76px; height: 76px;
+  display: grid; place-content: center;
+  border-radius: 50%;
+  font-family: var(--serif);
+  font-size: 2.3rem;
+  color: #fff;
+  background: var(--grad);
+  box-shadow: var(--shadow);
+  border: 3px solid rgba(255, 255, 255, .7);
+  margin-bottom: .3rem;
+  animation: stamp .7s var(--ease) both;
+}
+@keyframes stamp {
+  0%   { transform: scale(1.9) rotate(-14deg); opacity: 0; }
+  60%  { transform: scale(.94) rotate(3deg); opacity: 1; }
+  100% { transform: none; }
+}
+
 .card__reveal { animation: rise .8s var(--ease) both; }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
@@ -479,6 +499,48 @@ main { position: relative; z-index: 1; }
   display: grid; place-content: center;
   writing-mode: vertical-rl;
   font-size: .62rem; letter-spacing: .3em; text-transform: uppercase;
+}
+
+/* ------------------------- Resumen final ------------------------- */
+.summary {
+  display: grid;
+  gap: 1rem;
+  margin: 1.8rem 0;
+  text-align: left;
+}
+.gift {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.2rem;
+  border-radius: var(--r);
+  background: rgba(255, 255, 255, .5);
+  border: 1px solid var(--border);
+}
+.gift__icon {
+  flex: 0 0 auto;
+  width: 46px; height: 46px;
+  display: grid; place-content: center;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  background: linear-gradient(140deg, rgba(255,165,82,.24), rgba(255,77,141,.24));
+}
+.gift__body { display: grid; gap: .45rem; min-width: 0; }
+.gift__title { font-family: var(--serif); font-weight: 400; font-size: 1.25rem; margin: 0; line-height: 1.2; }
+.gift__text { margin: 0; font-size: .92rem; color: var(--ink-2); }
+.gift__detail {
+  margin: .2rem 0 0;
+  font-size: .8rem;
+  color: var(--ink-2);
+  border-top: 1px dashed var(--border);
+  padding-top: .6rem;
+}
+.letter__close {
+  color: var(--ink-2);
+  font-size: 1rem;
+  margin: 1.6rem 0 0;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--border);
 }
 
 /* ------------------------- Carta final ------------------------- */

@@ -132,7 +132,9 @@
       </div>`;
   }
 
-  function cardMarkup(cfg, isUnlocked) {
+  const rellena = (txt, n) => (txt || "").replace(/\{n\}/g, n);
+
+  function cardMarkup(cfg, isUnlocked, numero) {
     if (!isUnlocked) {
       return `
         <div class="card__icon">🔒</div>
@@ -142,29 +144,44 @@
         <button class="btn btn--ghost" data-play>Jugar</button>`;
     }
 
+    // Ganado: se le dice QUÉ número ha ganado, nunca qué es. Eso lo abre en persona.
+    const e = C.entrega;
+    return `
+      <div class="card__seal">${numero}</div>
+      <span class="card__label">${e.estado}</span>
+      <div class="card__body card__reveal">
+        <h3 class="card__title">${rellena(e.titulo, numero)}</h3>
+        <p class="card__text">${rellena(e.texto, numero)}</p>
+        <p class="card__detail">${e.nota}</p>
+      </div>`;
+  }
+
+  /* El desglose completo, solo al final */
+  function giftMarkup(cfg) {
     const fotos = (cfg.fotos && cfg.fotos.length)
       ? `<div class="card__photos">${cfg.fotos.map((f) => `<img src="${f}" alt="" loading="lazy">`).join("")}</div>`
       : "";
-
     return `
-      <div class="card__icon">${cfg.icono}</div>
-      <span class="card__label">${cfg.etiqueta}</span>
-      <div class="card__body card__reveal">
-        <h3 class="card__title">${cfg.titulo}</h3>
-        <p class="card__text">${cfg.descripcion}</p>
-        ${fotos}
-        ${cfg.boarding ? boardingPass(cfg.boarding) : ""}
-        <p class="card__detail">${cfg.detalle}</p>
-      </div>`;
+      <article class="gift">
+        <div class="gift__icon">${cfg.icono}</div>
+        <div class="gift__body">
+          <span class="card__label">${cfg.etiqueta}</span>
+          <h3 class="gift__title">${cfg.titulo}</h3>
+          <p class="gift__text">${cfg.descripcion}</p>
+          ${fotos}
+          ${cfg.boarding ? boardingPass(cfg.boarding) : ""}
+          <p class="gift__detail">${cfg.detalle}</p>
+        </div>
+      </article>`;
   }
 
   function renderCards() {
     cardsEl.innerHTML = "";
-    REGALOS.forEach(({ id, cfg }) => {
+    REGALOS.forEach(({ id, cfg }, i) => {
       const isUnlocked = unlocked.has(id);
       const card = document.createElement("article");
       card.className = "card reveal" + (isUnlocked ? " is-unlocked" : "");
-      card.innerHTML = cardMarkup(cfg, isUnlocked);
+      card.innerHTML = cardMarkup(cfg, isUnlocked, i + 1);
       const play = card.querySelector("[data-play]");
       if (play) play.addEventListener("click", () => openGame(id, cfg));
       cardsEl.appendChild(card);
@@ -227,10 +244,12 @@
     }
   }
 
-  /* ---------------- Final ---------------- */
-  $("#letter-eyebrow").textContent = "Y para terminar";
+  /* ---------------- Final: el resumen ---------------- */
+  $("#letter-eyebrow").textContent = C.carta.etiqueta;
   $("#letter-title").textContent = C.carta.titulo;
-  $("#letter-body").innerHTML = C.carta.texto.map((t) => `<p>${t}</p>`).join("");
+  $("#letter-intro").textContent = C.carta.intro;
+  $("#summary").innerHTML = REGALOS.map(({ cfg }) => giftMarkup(cfg)).join("");
+  $("#letter-close").textContent = C.carta.cierre;
   $("#letter-sign").textContent = `${C.carta.firma} — ${C.deParteDe}`;
 
   $("#finale-btn").addEventListener("click", () => {

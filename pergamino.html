@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pergamino para la carta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --papel:   #FDF4E9;
+    --papel-2: #F7E3D2;
+    --tinta:   #4A2C25;
+    --tinta-2: #8A6558;
+    --red:     #C0392F;
+    --coral:   #E2764F;
+    --rose:    #D96A86;
+    --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+    --sans:  "Inter", system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: #EDE2D8;
+    font-family: var(--sans);
+    color: var(--tinta);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem 1rem 4rem;
+  }
+
+  /* ---------------- La hoja ---------------- */
+  .hoja {
+    position: relative;
+    width: 210mm;
+    min-height: 297mm;
+    max-width: 100%;
+    padding: 20mm 18mm;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 12% 8%,  rgba(226, 118, 79, .16), transparent 42%),
+      radial-gradient(ellipse at 88% 92%, rgba(217, 106, 134, .16), transparent 42%),
+      radial-gradient(ellipse at 92% 10%, rgba(192, 57, 47, .09), transparent 38%),
+      linear-gradient(155deg, var(--papel) 0%, var(--papel-2) 100%);
+    box-shadow: 0 24px 60px -24px rgba(74, 44, 37, .45);
+  }
+
+  /* Grano del papel */
+  .hoja::before {
+    content: "";
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: .5;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/></filter><rect width='180' height='180' filter='url(%23g)' opacity='.35'/></svg>");
+    mix-blend-mode: multiply;
+  }
+
+  /* Marco interior */
+  .marco {
+    position: relative;
+    min-height: calc(297mm - 40mm);
+    display: flex;
+    flex-direction: column;
+    padding: 12mm 10mm;
+    border: 1px solid rgba(192, 57, 47, .34);
+    outline: 3px solid rgba(192, 57, 47, .13);
+    outline-offset: 3px;
+  }
+
+  .esquina { position: absolute; width: 16mm; height: 16mm; color: var(--red); opacity: .55; }
+  .esquina--tl { top: -1px; left: -1px; }
+  .esquina--tr { top: -1px; right: -1px; transform: scaleX(-1); }
+  .esquina--bl { bottom: -1px; left: -1px; transform: scaleY(-1); }
+  .esquina--br { bottom: -1px; right: -1px; transform: scale(-1); }
+
+  /* ---------------- Cabecera ---------------- */
+  header { text-align: center; }
+  .fecha {
+    margin: 0;
+    font-size: 8.5pt;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 38pt;
+    line-height: 1;
+    margin: 4mm 0 3mm;
+    color: var(--tinta);
+  }
+  .dedicatoria {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 12pt;
+    font-style: italic;
+    color: var(--tinta-2);
+  }
+
+  .filigrana {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3mm;
+    margin: 7mm 0 9mm;
+    color: var(--red);
+    opacity: .6;
+  }
+  .filigrana span { height: 1px; width: 26mm; background: currentColor; }
+
+  /* ---------------- Zona de escritura ---------------- */
+  .escritura {
+    flex: 1;
+    min-height: 150mm;
+    background-image: linear-gradient(
+      to bottom,
+      transparent calc(100% - 1px),
+      rgba(138, 101, 88, .3) calc(100% - 1px)
+    );
+    background-size: 100% 10.5mm;
+    background-repeat: repeat-y;
+  }
+  body.sin-pautas .escritura { background-image: none; }
+
+  /* ---------------- Firma ---------------- */
+  .firma {
+    margin-top: 10mm;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2mm;
+  }
+  .firma__linea { width: 62mm; height: 1px; background: rgba(138, 101, 88, .45); }
+  .firma__pie {
+    margin: 0;
+    font-size: 8pt;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: var(--tinta-2);
+  }
+
+  /* ---------------- Controles (no se imprimen) ---------------- */
+  .panel {
+    width: 210mm;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .7rem;
+    align-items: center;
+  }
+  .btn {
+    font: inherit;
+    font-size: .88rem;
+    font-weight: 500;
+    border: 1px solid rgba(192, 57, 47, .3);
+    background: #fff;
+    color: var(--tinta);
+    border-radius: 999px;
+    padding: .6rem 1.3rem;
+    cursor: pointer;
+  }
+  .btn--fill { background: linear-gradient(120deg, var(--coral), var(--red)); color: #fff; border-color: transparent; }
+  .btn:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+  .ayuda { margin: 0; font-size: .82rem; color: #6B554C; flex: 1 1 16rem; }
+
+  /* ---------------- Impresión ---------------- */
+  @page { size: A4 portrait; margin: 0; }
+  @media print {
+    body { background: #fff; padding: 0; display: block; }
+    .panel { display: none !important; }
+    .hoja {
+      width: 210mm; height: 297mm;
+      box-shadow: none;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="panel">
+    <button class="btn btn--fill" onclick="window.print()">Imprimir en A4</button>
+    <button class="btn" id="toggle">Quitar las pautas</button>
+    <p class="ayuda">Imprime en A4 vertical y activa «Gráficos de fondo» en las opciones de impresión para que salga el color del papel.</p>
+  </div>
+
+  <div class="hoja">
+    <div class="marco">
+      <svg class="esquina esquina--tl" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true">
+        <path d="M1 18V1h17"/>
+        <path d="M6 24V6h18" opacity=".55"/>
+        <circle cx="6" cy="6" r="1.7" fill="currentColor" stroke="none"/>
+      </svg>
+      <svg class="esquina esquina--tr" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true">
+        <path d="M1 18V1h17"/>
+        <path d="M6 24V6h18" opacity=".55"/>
+        <circle cx="6" cy="6" r="1.7" fill="currentColor" stroke="none"/>
+      </svg>
+      <svg class="esquina esquina--bl" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true">
+        <path d="M1 18V1h17"/>
+        <path d="M6 24V6h18" opacity=".55"/>
+        <circle cx="6" cy="6" r="1.7" fill="currentColor" stroke="none"/>
+      </svg>
+      <svg class="esquina esquina--br" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true">
+        <path d="M1 18V1h17"/>
+        <path d="M6 24V6h18" opacity=".55"/>
+        <circle cx="6" cy="6" r="1.7" fill="currentColor" stroke="none"/>
+      </svg>
+
+      <header>
+        <p class="fecha">7 de septiembre de 2026</p>
+        <h1>Para Cris</h1>
+        <p class="dedicatoria">Lo que no cabía en la pantalla</p>
+      </header>
+
+      <div class="filigrana" aria-hidden="true">
+        <span></span>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-8-5.1-8-10.4A4.7 4.7 0 0 1 12 7a4.7 4.7 0 0 1 8 3.6C20 15.9 12 21 12 21z"/></svg>
+        <span></span>
+      </div>
+
+      <div class="escritura"></div>
+
+      <div class="firma">
+        <div class="firma__linea"></div>
+        <p class="firma__pie">Alejandro</p>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const btn = document.getElementById('toggle');
+  btn.addEventListener('click', () => {
+    const sin = document.body.classList.toggle('sin-pautas');
+    btn.textContent = sin ? 'Poner las pautas' : 'Quitar las pautas';
+  });
+</script>
+</body>
+</html>

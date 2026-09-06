@@ -30,6 +30,14 @@ window.CONFIG = {
     fallo: "Fallo registrado. Otro más y este reto se bloqueará 24 h."
   },
 
+  /* ---------- Qué ve al ganar (sin desvelar todavía qué es) ---------- */
+  entrega: {
+    estado: "Desbloqueado",
+    titulo: "Has obtenido el regalo {n}",
+    texto: "Ya es tuyo. Busca el paquete con el número {n} y ábrelo delante de mí.",
+    nota: "Sabrás qué es cuando lo tengas en las manos."
+  },
+
   /* ---------- Juego 1: Rasca y gana → Álbum de fotos ---------- */
   album: {
     titulo: "Álbum de recuerdos",
@@ -114,14 +122,12 @@ window.CONFIG = {
     ]
   },
 
-  /* ---------- Carta final ---------- */
+  /* ---------- Final: resumen de todo lo ganado ---------- */
   carta: {
-    titulo: "Una última cosa",
-    texto: [
-      "Podría llenar esta página de regalos y aun así se quedaría corta.",
-      "Gracias por cada día normal contigo, que resulta que son los mejores.",
-      "Feliz cumpleaños, mi amor. Que cumplas muchísimos más, y todos conmigo."
-    ],
+    etiqueta: "Ya puedes mirar",
+    titulo: "Todo lo que te llevas",
+    intro: "Tres retos, tres regalos. Ahora sí, esto es lo que hay dentro de cada paquete:",
+    cierre: "Y queda una cosa más que no cabe en una pantalla: hay una carta esperándote en papel, escrita a mano. Ten paciencia con la letra.",
     firma: "Te quiero."
   },
 
