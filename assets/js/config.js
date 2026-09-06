@@ -8,7 +8,7 @@ window.CONFIG = {
   deParteDe: "Alejandro",               // Tu nombre (firma de la carta)
   edad: null,                           // Ej: 25 — pon null para no mostrarlo
   fraseIntro: "Hoy el mundo celebra que existes.",
-  fechaCumple: "2026-01-01",            // AAAA-MM-DD (solo decorativo)
+  fechaCumple: "2026-09-07",            // AAAA-MM-DD (solo decorativo)
 
   /* ---------- Vídeo ---------- */
   video: {
@@ -19,6 +19,15 @@ window.CONFIG = {
     poster: "",                          // opcional: assets/img/poster.jpg
     titulo: "Un mensaje para ti",
     subtitulo: "Dale al play, ponte cómoda y súbele el volumen."
+  },
+
+  /* ---------- Aviso falso (puro teatro: nunca bloquea nada) ---------- */
+  aviso: {
+    activo: true,
+    etiqueta: "Aviso",
+    titulo: "Un solo intento por reto",
+    texto: "Si fallas, el sistema quedará bloqueado 24 horas antes de que puedas volver a intentarlo. Piénsatelo bien.",
+    fallo: "Fallo registrado. Otro más y este reto se bloqueará 24 h."
   },
 
   /* ---------- Juego 1: Rasca y gana → Álbum de fotos ---------- */
@@ -59,7 +68,7 @@ window.CONFIG = {
       },
       {
         pregunta: "¿Cuál es 'nuestra' canción?",
-        opciones: ["Ti amo", "Perfect", "Anche sta sera"],
+        opciones: ["Ti amo", "Perfect", "Anche stasera"],
         correcta: 2
       },
       {

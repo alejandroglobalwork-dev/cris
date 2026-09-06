@@ -91,6 +91,14 @@
   $("#to-gifts").addEventListener("click", () =>
     $("#gifts").scrollIntoView({ behavior: "smooth" }));
 
+  /* ---------------- Aviso (falso) ---------------- */
+  if (C.aviso && C.aviso.activo) {
+    $("#warning-label").textContent = C.aviso.etiqueta;
+    $("#warning-title").textContent = C.aviso.titulo;
+    $("#warning-text").textContent = C.aviso.texto;
+    $("#warning").hidden = false;
+  }
+
   /* ---------------- Tarjetas de regalo ---------------- */
   const cardsEl = $("#cards");
 

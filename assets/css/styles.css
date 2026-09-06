@@ -220,6 +220,38 @@ main { position: relative; z-index: 1; }
 .progress__fill { height: 100%; width: 0; border-radius: 999px; background: var(--grad); transition: width .9s var(--ease); }
 .progress__label { font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
 
+/* ------------------------- Aviso (falso) ------------------------- */
+.warning {
+  display: flex;
+  align-items: flex-start;
+  gap: .9rem;
+  width: min(100%, 30rem);
+  padding: 1rem 1.2rem;
+  text-align: left;
+  border-radius: var(--r);
+  background: rgba(215, 38, 61, .05);
+  border: 1px solid rgba(215, 38, 61, .22);
+  border-left: 3px solid var(--red);
+}
+.warning__mark {
+  flex: 0 0 auto;
+  width: 22px; height: 22px;
+  margin-top: .15rem;
+  display: grid; place-content: center;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  font-size: .8rem; font-weight: 700;
+}
+.warning p { margin: 0; }
+.warning__label {
+  font-size: .62rem; font-weight: 700;
+  letter-spacing: .24em; text-transform: uppercase;
+  color: var(--red);
+}
+.warning__title { font-weight: 600; font-size: .95rem; margin-top: .1rem !important; }
+.warning__text { font-size: .86rem; color: var(--ink-2); line-height: 1.5; }
+
 /* ------------------------- Tarjetas de regalo ------------------------- */
 .cards {
   display: grid;
@@ -396,6 +428,11 @@ main { position: relative; z-index: 1; }
 .quiz__dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(215,38,61,.2); transition: background .4s; }
 .quiz__dots span.on { background: var(--red); }
 .quiz__note { font-size: .85rem; color: var(--ink-2); min-height: 1.4em; margin: 0; }
+.quiz__note--warn { color: var(--red); font-weight: 500; animation: shake .45s var(--ease); }
+@keyframes shake {
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
 
 /* ------------------------- Juego: ruleta ------------------------- */
 .wheel-wrap { position: relative; display: grid; place-items: center; padding-top: 14px; }

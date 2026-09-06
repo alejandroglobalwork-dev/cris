@@ -176,6 +176,7 @@
       q.textContent = item.pregunta;
       opts.innerHTML = "";
       note.textContent = "";
+      note.classList.remove("quiz__note--warn");
       locked = false;
 
       item.opciones.forEach((texto, idx) => {
@@ -194,13 +195,16 @@
       if (!ok) {
         btn.classList.add("is-off");
         btn.disabled = true;
-        note.textContent = "Casi… prueba otra 💭";
+        note.classList.add("quiz__note--warn");
+        note.textContent =
+          (window.CONFIG.aviso && window.CONFIG.aviso.fallo) || "Casi… prueba otra.";
         return;
       }
 
       locked = true;
       btn.classList.add("is-ok");
       [...opts.children].forEach((b) => { if (b !== btn) b.classList.add("is-off"); });
+      note.classList.remove("quiz__note--warn");
       note.textContent = i === preguntas.length - 1 ? "Perfecto ✨" : "¡Correcto!";
 
       setTimeout(() => {
