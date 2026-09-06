@@ -8,7 +8,10 @@ window.CONFIG = {
   deParteDe: "Alejandro",               // Tu nombre (firma de la carta)
   edad: null,                           // Ej: 25 — pon null para no mostrarlo
   fraseIntro: "Hoy el mundo celebra que existes.",
-  fechaCumple: "2026-09-07",            // AAAA-MM-DD (solo decorativo)
+  fechaCumple: "2026-09-07",
+  // false = al recargar la página los tres retos vuelven a empezar.
+  // true  = recuerda lo que ya había desbloqueado.
+  guardarProgreso: false,            // AAAA-MM-DD (solo decorativo)
 
   /* ---------- Vídeo ---------- */
   video: {

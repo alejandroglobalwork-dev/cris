@@ -12,13 +12,22 @@
     { id: "viaje",   cfg: C.viaje }
   ];
 
-  /* ---------------- Estado persistente ---------------- */
+  /* ---------------- Estado ---------------- */
+  /* Con guardarProgreso en false cada carga empieza limpia: los juegos se
+     vuelven a jugar enteros. Con true, recuerda lo ya desbloqueado. */
+  const PERSISTE = C.guardarProgreso === true;
   let unlocked = new Set();
+
   try {
-    unlocked = new Set(JSON.parse(localStorage.getItem(STORE_KEY) || "[]"));
+    if (PERSISTE) {
+      unlocked = new Set(JSON.parse(localStorage.getItem(STORE_KEY) || "[]"));
+    } else {
+      localStorage.removeItem(STORE_KEY);   // borra restos de visitas anteriores
+    }
   } catch (_) { /* modo privado: seguimos sin memoria */ }
 
   const save = () => {
+    if (!PERSISTE) return;
     try { localStorage.setItem(STORE_KEY, JSON.stringify([...unlocked])); } catch (_) {}
   };
 
