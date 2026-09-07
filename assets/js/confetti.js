@@ -29,7 +29,7 @@
         w: 5 + Math.random() * 7,
         h: 8 + Math.random() * 10,
         vx: (Math.random() - 0.5) * 2.4,
-        vy: 4.6 + Math.random() * 5,
+        vy: 3.4 + Math.random() * 4.2,
         rot: Math.random() * Math.PI,
         vr: (Math.random() - 0.5) * 0.22,
         color: COLORS[(Math.random() * COLORS.length) | 0],
@@ -51,10 +51,10 @@
     for (const p of pieces) {
       p.x += p.vx * paso;
       p.y += p.vy * paso;
-      p.vy += 0.09 * paso;
+      p.vy += 0.065 * paso;
       p.vx *= Math.pow(0.995, paso);
       p.rot += p.vr * paso;
-      if (p.y > h * 0.45) p.life -= 0.03 * paso;
+      if (p.y > h * 0.6) p.life -= 0.022 * paso;
 
       ctx.save();
       ctx.globalAlpha = Math.max(p.life, 0);

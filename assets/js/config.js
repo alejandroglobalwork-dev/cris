@@ -53,7 +53,12 @@ window.CONFIG = {
     pista: "Como los de la lotería: encuentra tres 7 y el premio es tuyo.",
     numeroSuerte: 7,      // su número de la suerte
     necesarios: 3,        // cuántos tiene que encontrar
-    casillas: 6,          // casillas de la cartilla
+    casillas: 9,          // cartilla de 3 x 3
+    // El guion decide QUÉ sale en cada rascada, no la posición: así la
+    // tensión va donde queremos. Falla, acierta, vuelve a fallar y remata
+    // con dos seguidos. Si se acaba el guion, todo lo que salga es acierto,
+    // de modo que ganar está garantizado siempre.
+    guion: ["fallo", "acierto", "fallo", "acierto", "acierto"],
     // Contador de fallos: puro teatro, nunca llega a bloquear la partida
     fallos: {
       limite: 3,

@@ -20,27 +20,31 @@
     const necesarios = cfg.necesarios || 3;
     const total      = Math.max(cfg.casillas || 6, necesarios);
 
-    /* Números: los de la suerte + relleno distinto, todo barajado */
-    const relleno = [1, 2, 3, 4, 5, 6, 8, 9]
-      .filter((n) => n !== suerte)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, total - necesarios);
-    const numeros = Array(necesarios).fill(suerte)
-      .concat(relleno)
-      .sort(() => Math.random() - 0.5);
+    /* Guion de la partida: qué sale en cada rascada, en orden. Las casillas
+       están vacías hasta que se rascan, así que nada se puede adivinar
+       mirando la cartilla ni el código de la página. */
+    const guion = (cfg.guion || []).slice();
+    const otros = [1, 2, 3, 4, 5, 6, 8, 9].filter((n) => n !== suerte);
+
+    let paso = 0;
+    function siguiente() {
+      // Agotado el guion, todo son aciertos: ganar está garantizado
+      const tipo = guion[paso] || "acierto";
+      paso++;
+      return tipo;
+    }
 
     const ticket = el("div", "ticket");
     ticket.appendChild(el("p", "ticket__head",
       `Encuentra <strong>${necesarios} números ${suerte}</strong>`));
 
     const grid = el("div", "ticket__grid");
-    numeros.forEach((n) => {
+    for (let i = 0; i < total; i++) {
       const cell = el("div", "ticket__cell");
-      cell.dataset.num = n;
-      cell.appendChild(el("span", "ticket__num", String(n)));
+      cell.appendChild(el("span", "ticket__num", ""));
       cell.appendChild(el("canvas"));
       grid.appendChild(cell);
-    });
+    }
     ticket.appendChild(grid);
 
     const pie = el("div", "ticket__foot");
@@ -107,7 +111,12 @@
       canvas.dataset.hecho = "1";
       canvas.classList.add("is-done");
 
-      if (+cell.dataset.num === suerte) {
+      const acierto = siguiente() === "acierto" && aciertos < necesarios;
+      cell.querySelector(".ticket__num").textContent = acierto
+        ? suerte
+        : otros[(Math.random() * otros.length) | 0];
+
+      if (acierto) {
         cell.classList.add("is-hit");
         aciertos++;
         marcador.textContent = `${aciertos} de ${necesarios}`;
@@ -331,7 +340,7 @@
 
       const centerDeg = (target + 0.5) * (360 / n);   // centro de la casilla
       const jitter = (Math.random() - 0.5) * (360 / n) * 0.5;
-      const final = 360 * 6 + (360 - centerDeg) + jitter;
+      const final = 360 * 9 + (360 - centerDeg) + jitter;
 
       canvas.style.transform = `rotate(${final}deg)`;
 
@@ -339,7 +348,7 @@
         note.textContent = `¡Te ha tocado el ${casillas[target].texto.toUpperCase()}! 🎉`;
         if (window.confetti) window.confetti.burst(60);
         setTimeout(onWin, 900);
-      }, 5500);
+      }, 7400);
     });
   }
 
