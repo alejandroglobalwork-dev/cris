@@ -43,8 +43,13 @@
     });
     ticket.appendChild(grid);
 
+    const pie = el("div", "ticket__foot");
     const marcador = el("p", "ticket__score", `0 de ${necesarios}`);
-    ticket.appendChild(marcador);
+    const fallosCfg = cfg.fallos || { limite: 3, etiqueta: "Fallos" };
+    const contadorFallos = el("p", "ticket__fails",
+      `${fallosCfg.etiqueta} 0 / ${fallosCfg.limite}`);
+    pie.append(marcador, contadorFallos);
+    ticket.appendChild(pie);
     stage.appendChild(ticket);
 
     const nota = el("p", "quiz__note", "Rasca con el dedo (o el ratón).");
@@ -81,6 +86,7 @@
 
     /* ---- Rascado ---- */
     let aciertos = 0;
+    let fallos = 0;
     let ganado = false;
     let rascando = false;
 
@@ -106,6 +112,8 @@
         aciertos++;
         marcador.textContent = `${aciertos} de ${necesarios}`;
         if (window.confetti) window.confetti.burst(18);
+        nota.classList.remove("quiz__note--warn");
+        nota.textContent = "";
 
         if (aciertos >= necesarios && !ganado) {
           ganado = true;
@@ -115,7 +123,26 @@
           setTimeout(onWin, 1100);
         }
       } else {
+        // Los fallos se cuentan y se avisan, pero nunca bloquean la partida
         cell.classList.add("is-miss");
+        fallos++;
+        contadorFallos.textContent =
+          `${fallosCfg.etiqueta} ${fallos} / ${fallosCfg.limite}`;
+        contadorFallos.classList.add("is-bad");
+        contadorFallos.classList.remove("shake");
+        void contadorFallos.offsetWidth;          // reinicia la sacudida
+        contadorFallos.classList.add("shake");
+
+        if (!ganado) {
+          nota.classList.add("quiz__note--warn");
+          if (fallos >= fallosCfg.limite) {
+            nota.textContent = fallosCfg.agotado || "Sin margen.";
+          } else if (fallos === fallosCfg.limite - 1) {
+            nota.textContent = fallosCfg.ultimo || "Último fallo permitido.";
+          } else {
+            nota.textContent = fallosCfg.aviso || "Error.";
+          }
+        }
       }
     }
 
@@ -309,7 +336,7 @@
       canvas.style.transform = `rotate(${final}deg)`;
 
       setTimeout(() => {
-        note.textContent = `¡${casillas[target].texto}! 🎉`;
+        note.textContent = `¡Te ha tocado el ${casillas[target].texto.toUpperCase()}! 🎉`;
         if (window.confetti) window.confetti.burst(60);
         setTimeout(onWin, 900);
       }, 5500);

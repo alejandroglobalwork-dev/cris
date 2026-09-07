@@ -47,9 +47,9 @@
     }
   }
 
-  /* Confeti nada más abrir la página: lo primero que ve al escanear el QR */
+  /* Confeti nada más abrir la página: corto, lo justo para recibirla */
   if (window.confetti) {
-    requestAnimationFrame(() => window.confetti.rain(4));
+    requestAnimationFrame(() => window.confetti.rain(0.8));
   }
 
   $("#start-btn").addEventListener("click", () => {

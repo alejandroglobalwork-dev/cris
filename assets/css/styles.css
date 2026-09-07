@@ -437,14 +437,26 @@ main { position: relative; z-index: 1; }
 .ticket__cell.is-miss { opacity: .5; }
 @keyframes hit { 40% { transform: scale(1.16) rotate(-4deg); } }
 
-.ticket__score {
+.ticket__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+  border-top: 1px dashed rgba(215, 38, 61, .28);
+  padding-top: .7rem;
+}
+.ticket__score,
+.ticket__fails {
   margin: 0;
-  font-size: .8rem;
-  letter-spacing: .18em;
+  font-size: .74rem;
+  letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--red);
   font-weight: 600;
 }
+.ticket__score { color: var(--red); }
+.ticket__fails { color: var(--ink-2); opacity: .65; }
+.ticket__fails.is-bad { color: var(--red); opacity: 1; }
+.shake { animation: shake .45s var(--ease); }
 
 /* ------------------------- Juego: quiz ------------------------- */
 .quiz { width: 100%; display: grid; gap: 1rem; }

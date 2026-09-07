@@ -7,7 +7,7 @@ window.CONFIG = {
   nombre: "Cris",                       // Su nombre / cómo la llamas
   deParteDe: "Alejandro",               // Tu nombre (firma de la carta)
   edad: null,                           // Ej: 25 — pon null para no mostrarlo
-  fraseIntro: "Hoy el mundo celebra que existes.",
+  fraseIntro: "Hoy celebramos compartir nuestras vidas a tu lado.",
   // Se ven en la portada y caen mezclados con el confeti
   iconos: ["🎂", "😊", "❤️"],
   fechaCumple: "2026-09-07",
@@ -54,6 +54,14 @@ window.CONFIG = {
     numeroSuerte: 7,      // su número de la suerte
     necesarios: 3,        // cuántos tiene que encontrar
     casillas: 6,          // casillas de la cartilla
+    // Contador de fallos: puro teatro, nunca llega a bloquear la partida
+    fallos: {
+      limite: 3,
+      etiqueta: "Fallos",
+      aviso: "Error. Te queda muy poco margen.",
+      ultimo: "Último fallo permitido. Ni uno más.",
+      agotado: "Sin margen. Vas a tener que afinar."
+    },
     descripcion:
       "Un álbum hecho a mano con nuestras fotos favoritas. Cada página es un día que no quiero que se nos olvide nunca.",
     detalle: "Impreso, con fotos reales y notas escritas a mano.",
@@ -68,7 +76,7 @@ window.CONFIG = {
     icono: "🌸",
     juego: "quiz",
     juegoTitulo: "¿Cuánto nos conocemos?",
-    pista: "Tres preguntas sobre nosotros. Te las sabes todas.",
+    pista: "Cuatro preguntas sobre nosotros. Deberías sabértelas todas.",
     descripcion:
       "Prada Paradox. Floral, ámbar y con carácter, igual que tú. Para que allá donde vayas, se note que has pasado por ahí.",
     detalle: "Eau de Parfum · Notas de neroli, jazmín y ámbar.",
@@ -88,6 +96,11 @@ window.CONFIG = {
         pregunta: "¿Cuál fue nuestra primera cita?",
         opciones: ["En la bolera", "En el cine", "Un paseo por la playa"],
         correcta: 0
+      },
+      {
+        pregunta: "¿Dónde fue nuestro primer beso?",
+        opciones: ["En Altea", "En el mirador de Moraira", "En Jávea"],
+        correcta: 1
       }
     ]
   },
@@ -98,8 +111,8 @@ window.CONFIG = {
     etiqueta: "Regalo 3",
     icono: "✈️",
     juego: "ruleta",
-    juegoTitulo: "La ruleta del destino",
-    pista: "Gira la ruleta del destino. El universo ya sabe adónde vamos.",
+    juegoTitulo: "La ruleta de la suerte",
+    pista: "Gira una sola vez. Hay premios que quitan el aliento y casillas que no dan nada.",
     descripcion:
       "Vuelos reservados. El 14 de octubre despegamos de Valencia a las 22:30 y aterrizamos en otra vida: tú, yo y el Teide de fondo.",
     detalle: "Los billetes están dentro del sobre. En papel, para que puedas tocarlos.",
@@ -113,17 +126,17 @@ window.CONFIG = {
       vuelo: "LOVE 001",
       asientos: "1A · 1B"
     },
-    // Los destinos reales de la ruleta. Ganan las marcadas con `premio: true`,
-    // y la ruleta siempre para en una de ellas.
+    // Premios de la ruleta, sin desvelar el destino. Gana la marcada con
+    // `premio: true`, y la ruleta siempre para en una de ellas.
     casillas: [
-      { texto: "Gran Canaria",  premio: false },
-      { texto: "Tenerife",      premio: true  },
-      { texto: "Madrid",        premio: false },
-      { texto: "Fuerteventura", premio: false },
-      { texto: "Tenerife",      premio: true  },
-      { texto: "Mallorca",      premio: false },
-      { texto: "Miami",         premio: false },
-      { texto: "Tenerife",      premio: true  }
+      { texto: "Buceo",       premio: false },
+      { texto: "Viaje",       premio: true  },
+      { texto: "Nada",        premio: false },
+      { texto: "Paracaídas",  premio: false },
+      { texto: "Viaje",       premio: true  },
+      { texto: "Circuito",    premio: false },
+      { texto: "Nada",        premio: false },
+      { texto: "Viaje",       premio: true  }
     ]
   },
 
