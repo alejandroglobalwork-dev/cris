@@ -7,7 +7,7 @@
   const STORE_KEY = "regalos-desbloqueados";
 
   const REGALOS = [
-    { id: "album",   cfg: C.album },
+    { id: "cuadro",  cfg: C.cuadro },
     { id: "perfume", cfg: C.perfume },
     { id: "viaje",   cfg: C.viaje }
   ];

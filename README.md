@@ -9,7 +9,7 @@ sin servidor: HTML + CSS + JavaScript.
 1. **Portada** — su nombre en grande, con el fondo aura (naranja · rosa · rojo).
 2. **Vídeo** — tu mensaje grabado.
 3. **Tres regalos, tres retos**
-   - 🃏 **Rasca y descubre** → el álbum de fotos
+   - 🃏 **Rasca y gana** (encuentra tres 7) → el cuadro
    - 💭 **Quiz "¿cuánto nos conocemos?"** → el perfume
    - 🎡 **Ruleta del destino** (trucada, siempre cae en Tenerife) → el viaje,
      con tarjeta de embarque incluida
@@ -49,12 +49,12 @@ video: { tipo: "youtube", fuente: "dQw4w9WgXcQ" }
 Si el archivo todavía no existe, la página muestra un aviso elegante en su
 lugar (no se rompe).
 
-### 2. Las fotos del álbum
+### 2. Las fotos de vista previa
 
 Copia algunas en `assets/img/` y añádelas a la lista:
 
 ```js
-album: { ..., fotos: ["assets/img/foto1.jpg", "assets/img/foto2.jpg"] }
+cuadro: { ..., fotos: ["assets/img/foto1.jpg", "assets/img/foto2.jpg"] }
 ```
 
 ### 3. El quiz

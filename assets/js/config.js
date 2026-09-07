@@ -43,11 +43,11 @@ window.CONFIG = {
     nota: "Sabrás qué es cuando lo tengas en las manos."
   },
 
-  /* ---------- Juego 1: Rasca y gana → Álbum de fotos ---------- */
-  album: {
-    titulo: "Álbum de recuerdos",
+  /* ---------- Juego 1: Rasca y gana → Cuadro ---------- */
+  cuadro: {
+    titulo: "Un cuadro nuestro",
     etiqueta: "Regalo 1",
-    icono: "📖",
+    icono: "🖼️",
     juego: "scratch",
     juegoTitulo: "Rasca y gana",
     pista: "Como los de la lotería: encuentra tres 7 y el premio es tuyo.",
@@ -68,8 +68,8 @@ window.CONFIG = {
       agotado: "Sin margen. Vas a tener que afinar."
     },
     descripcion:
-      "Un álbum hecho a mano con nuestras fotos favoritas. Cada página es un día que no quiero que se nos olvide nunca.",
-    detalle: "Impreso, con fotos reales y notas escritas a mano.",
+      "Una foto nuestra, impresa y enmarcada. Para que deje de vivir dentro de un móvil y pase a mirarnos desde la pared todos los días.",
+    detalle: "Enmarcado y listo para colgar.",
     // Fotos de vista previa (opcional). Pon rutas en assets/img/ y aparecerán en un carrusel.
     fotos: []
   },
