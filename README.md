@@ -7,7 +7,7 @@ sin servidor: HTML + CSS + JavaScript.
 ## El recorrido
 
 1. **Portada** — su nombre en grande, con el fondo aura (naranja · rosa · rojo).
-2. **Vídeo** — tu mensaje grabado.
+2. **Vídeo** — tu mensaje grabado (desactivado: pon `video.activo` en `true` para que vuelva).
 3. **Tres regalos, tres retos**
    - 🃏 **Rasca y gana** (encuentra tres 7) → el cuadro
    - 💭 **Quiz "¿cuánto nos conocemos?"** → el perfume
@@ -25,6 +25,12 @@ Ahí cambias el nombre, la frase, el vídeo, los textos de los tres regalos,
 las preguntas del quiz, la tarjeta de embarque y la carta final.
 
 ### 1. El vídeo
+
+La sección está **apagada**. Para encenderla, en `config.js`:
+
+```js
+video: { activo: true, ... }
+```
 
 Opción A — archivo propio (recomendado):
 

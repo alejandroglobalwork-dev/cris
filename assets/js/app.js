@@ -52,17 +52,25 @@
     requestAnimationFrame(() => window.confetti.rain(1.8));
   }
 
+  /* Sin vídeo, el botón de la portada lleva directo a los regalos */
+  const HAY_VIDEO = C.video && C.video.activo === true;
+
   $("#start-btn").addEventListener("click", () => {
     if (window.confetti) window.confetti.burst(90);
     startMusic();
-    $("#video").scrollIntoView({ behavior: "smooth" });
+    $(HAY_VIDEO ? "#video" : "#gifts").scrollIntoView({ behavior: "smooth" });
   });
 
   /* ---------------- Vídeo ---------------- */
-  $("#video-title").textContent = C.video.titulo;
-  $("#video-subtitle").textContent = C.video.subtitulo;
-
   (function mountVideo() {
+    if (!HAY_VIDEO) {          // sección fuera: ni se monta ni se muestra
+      $("#video").hidden = true;
+      return;
+    }
+
+    $("#video-title").textContent = C.video.titulo;
+    $("#video-subtitle").textContent = C.video.subtitulo;
+
     const frame = $("#video-frame");
     const v = C.video;
 
@@ -105,8 +113,10 @@
     video.addEventListener("play", () => pauseMusic());
   })();
 
-  $("#to-gifts").addEventListener("click", () =>
-    $("#gifts").scrollIntoView({ behavior: "smooth" }));
+  if (HAY_VIDEO) {
+    $("#to-gifts").addEventListener("click", () =>
+      $("#gifts").scrollIntoView({ behavior: "smooth" }));
+  }
 
   /* ---------------- Aviso (falso) ---------------- */
   if (C.aviso && C.aviso.activo) {
