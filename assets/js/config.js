@@ -89,8 +89,12 @@ window.CONFIG = {
       },
       {
         pregunta: "¿Cuál es 'nuestra' canción?",
-        opciones: ["Ti amo", "Perfect", "Anche stasera"],
-        correcta: 2
+        opciones: [
+          "Love — Clarent",
+          "Anche stasera — Sfera Ebbasta",
+          "21 Questions — 50 Cent"
+        ],
+        correcta: 1
       },
       {
         pregunta: "¿Cuál fue nuestra primera cita?",
